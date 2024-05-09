@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""Minimum Operations"""
+
+
 def minOperations(n):
     """find the minimum number of operations required to
     generate a number n from 1
