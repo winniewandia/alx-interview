@@ -8,7 +8,7 @@ def canUnlockAll(boxes):
     Args:
         boxes (list): list of lists of integers.
     """
-    visited = ()
+    visited = set()
     visited.add(0)
     stack = [0]
 
