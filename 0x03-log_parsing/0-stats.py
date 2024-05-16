@@ -9,16 +9,8 @@ def display_metrics(file_size, status_counts):
         file_size (int): The total file size read so far.
         status_counts (dict): The count of each status code read so far.
     """
-    if not isinstance(file_size, int):
-        print("Error: file_size must be an integer.")
-        return
-    if not isinstance(status_counts, dict):
-        print("Error: status_counts must be a dictionary.")
-        return
     print("File size: {}".format(file_size))
-    for key in sorted(
-            [k for k in status_counts.keys() if k is not None and
-             k in status_counts]):
+    for key in sorted(status_counts.keys()):
         print("{}: {}".format(key, status_counts[key]))
 
 
