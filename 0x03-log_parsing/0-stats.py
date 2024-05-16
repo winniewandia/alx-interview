@@ -63,6 +63,7 @@ def process_logs():
 
     except KeyboardInterrupt:
         print_stats(total_size, status_codes)
+        raise
 
 
 process_logs()
