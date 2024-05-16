@@ -1,69 +1,50 @@
 #!/usr/bin/python3
 """Reads stdin line by line and computes metrics"""
-import sys
-import re
 
 
-def print_stats(total_size, status_codes):
-    """function is used to print out the current statistics
+def display_metrics(file_size, status_counts):
+    """Display the calculated metrics.
 
     Args:
-        total_size (int): total size of the files
-        status_codes (int): dictionary containing the status codes
+        file_size (int): The total file size read so far.
+        status_counts (dict): The count of each status code read so far.
     """
-    print("File size:", total_size)
-    for code in sorted(status_codes.keys()):
-        print(f"{code}: {status_codes[code]}")
+    print("File size: {}".format(file_size))
+    for key in sorted(status_counts.keys()):
+        print("{}: {}".format(key, status_counts[key]))
 
 
-def parse_line(line):
-    """function is used to parse the line
-
-    Args:
-        line (std_in): line to be parsed
-
-    Returns:
-        dict: ip_address, status_code, file_size
-    """
-    try:
-        pattern = (
-            r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[.*\] '
-            r'"GET /projects/260 HTTP/1.1" '
-            r'(\d{3}) (\d+)'
-        )
-        match = re.match(pattern, line)
-        if match:
-            ip_address = match.group(1)
-            status_code = int(match.group(2))
-            file_size = int(match.group(3))
-            return ip_address, status_code, file_size
-        else:
-            return None, None, None
-    except (IndexError, ValueError):
-        return None, None, None
-
-
-def process_logs():
-    """function is used to process the logs from the stdin
-    """
+if __name__ == "__main__":
+    import sys
     total_size = 0
-    status_codes = {}
+    status_counts = {}
+    valid_statuses = ['200', '301', '400', '401', '403', '404', '405', '500']
+    line_count = 0
 
     try:
-        for i, line in enumerate(sys.stdin, 1):
-            ip_address, status_code, file_size = parse_line(line.strip())
-            if ip_address is None:
+        for log_line in sys.stdin:
+            line_count += 1
+
+            if line_count == 10:
+                display_metrics(total_size, status_counts)
+                line_count = 0
+
+            log_parts = log_line.split()
+
+            try:
+                total_size += int(log_parts[-1])
+            except (IndexError, ValueError):
                 continue
 
-            total_size += file_size
-            status_codes[status_code] = status_codes.get(status_code, 0) + 1
+            try:
+                status = log_parts[-2]
+                if status in valid_statuses:
+                    status_counts[status] = status_counts.get(status, 0) + 1
+            except IndexError:
+                continue
 
-            if i % 10 == 0:
-                print_stats(total_size, status_codes)
+        display_metrics(total_size, status_counts)
 
     except KeyboardInterrupt:
-        print_stats(total_size, status_codes)
+        display_metrics(total_size, status_counts)
         raise
-
-
-process_logs()
