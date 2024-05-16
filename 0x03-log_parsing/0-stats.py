@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Reads stdin line by line and computes metrics"""
 import sys
+import re
 
 
 def print_stats(total_size, status_codes):
@@ -25,11 +26,15 @@ def parse_line(line):
         dict: ip_address, status_code, file_size
     """
     try:
-        parts = line.split()
-        ip_address = parts[0]
-        status_code = int(parts[-2])
-        file_size = int(parts[-1])
-        return ip_address, status_code, file_size
+        pattern = r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[.*\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)'
+        match = re.match(pattern, line)
+        if match:
+            ip_address = match.group(1)
+            status_code = int(match.group(2))
+            file_size = int(match.group(3))
+            return ip_address, status_code, file_size
+        else:
+            return None, None, None
     except (IndexError, ValueError):
         return None, None, None
 
