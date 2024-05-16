@@ -3,7 +3,7 @@ import sys
 
 
 def print_stats(total_size, status_codes):
-    print("Total file size:", total_size)
+    print("File size:", total_size)
     for code in sorted(status_codes.keys()):
         print(f"{code}: {status_codes[code]}")
 
