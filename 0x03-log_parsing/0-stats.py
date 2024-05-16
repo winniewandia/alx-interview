@@ -1,14 +1,29 @@
 #!/usr/bin/python3
+"""Reads stdin line by line and computes metrics"""
 import sys
 
 
 def print_stats(total_size, status_codes):
+    """function is used to print out the current statistics
+
+    Args:
+        total_size (int): total size of the files
+        status_codes (int): dictionary containing the status codes
+    """
     print("File size:", total_size)
     for code in sorted(status_codes.keys()):
         print(f"{code}: {status_codes[code]}")
 
 
 def parse_line(line):
+    """function is used to parse the line
+
+    Args:
+        line (std_in): line to be parsed
+
+    Returns:
+        dict: ip_address, status_code, file_size
+    """
     try:
         parts = line.split()
         ip_address = parts[0]
@@ -20,6 +35,8 @@ def parse_line(line):
 
 
 def process_logs():
+    """function is used to process the logs from the stdin
+    """
     total_size = 0
     status_codes = {}
 
