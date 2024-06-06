@@ -1,0 +1,1 @@
+this script retrieves information about a specific Star Wars film and logs the names of all characters in that film. It does this by making HTTP requests to the SWAPI and parsing the responses.
