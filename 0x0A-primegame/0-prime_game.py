@@ -18,6 +18,8 @@ def isWinner(x, nums):
 
     ben = 0
     mar = 0
+    if len(nums) != x:
+        return None
     for i in range(len(nums)):
         prime = [True for j in range(i+1)]
         p = 2
