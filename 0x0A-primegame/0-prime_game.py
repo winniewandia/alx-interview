@@ -33,13 +33,17 @@ def isWinner(x, nums):
         for j in range(2, num+1):
             if prime[j]:
                 count += 1
-            if count == 0:
-                ben += 1
-            elif count % 2 == 0:
-                ben += 1
-            else:
-                mar += 1
+        if count == 0:
+            ben += 1
+        elif count % 2 == 0:
+            ben += 1
+        else:
+            mar += 1
     if ben < mar:
         return "Maria"
     else:
         return "Ben"
+
+
+# print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
+# print("Winner: {}".format(isWinner(1, [2])))
