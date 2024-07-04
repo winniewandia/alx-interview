@@ -20,17 +20,17 @@ def isWinner(x, nums):
     mar = 0
     if len(nums) != x:
         return None
-    for i in range(len(nums)):
-        prime = [True for j in range(i+1)]
+    for num in nums:
+        prime = [True for j in range(num+1)]
         p = 2
-        while p*p <= i:
+        while p*p <= num:
             if prime[p]:
-                for j in range(p*p, i+1, p):
+                for j in range(p*p, num+1, p):
                     prime[j] = False
             p += 1
 
         count = 0
-        for j in range(len(prime)):
+        for j in range(2, num+1):
             if prime[j]:
                 count += 1
             if count == 0:
