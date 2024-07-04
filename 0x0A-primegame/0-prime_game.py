@@ -30,20 +30,15 @@ def isWinner(x, nums):
             p += 1
 
         count = 0
-        for p in range(2, i+1):
-            if prime[p]:
+        for j in range(len(prime)):
+            if prime[j]:
                 count += 1
-            b = 0
-            m = 0
             if count == 0:
-                b += 1
-                ben += b
+                ben += 1
             elif count % 2 == 0:
-                b += 1
-                ben += b
+                ben += 1
             else:
-                m += 1
-                mar += m
+                mar += 1
     if ben < mar:
         return "Maria"
     else:
